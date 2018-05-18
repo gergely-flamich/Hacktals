@@ -58,7 +58,9 @@ executable Hacktals
   
   -- Other library packages from which modules are imported.
   build-depends:       base >=4.9 && <4.10,
-                       gloss == 1.12.*
+                       gloss == 1.12.*,
+                       hmatrix == 0.19.*,
+                       random == 1.1.*
   
   -- Directories containing source files.
   hs-source-dirs:      src
