@@ -65,7 +65,7 @@ handleEvents (EventKey (Char 'n') Down _ _) fs = let pl = pointLoc fs
 handleEvents (EventKey (Char 'p') Down _ _) fs = fs { autoPlay = not $ autoPlay fs }
 handleEvents _ fs = fs
 
--- | IDK
+-- | Stuff to perform at every frame of the animation
 stepWorld :: Float -> FractalState -> FractalState
 stepWorld _ fs = if autoPlay fs
                  then let pl = pointLoc fs
@@ -79,7 +79,7 @@ stepWorld _ fs = if autoPlay fs
 
 
 chaosStep :: StdGen -> Vector R -> (Vector R, (Float, Float), StdGen)
-chaosStep gen pl = let (pl', gen') = iter squareLeafIFS gen pl
+chaosStep gen pl = let (pl', gen') = chaosIter differentFlake2IFS gen pl
                        (x:y:[]) = toList pl'
                        x' = realToFrac (300 * x)
                        y' = realToFrac (300 * y)
