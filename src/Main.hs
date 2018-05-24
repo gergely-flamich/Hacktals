@@ -23,7 +23,7 @@ window = InWindow "Hacktals" (800, 600) (10, 10)
 
 -- | FPS
 fps :: Int
-fps = 64
+fps = 300
 
 -- | Data structure to hold the state of the fractal
 data FractalState = FractalState
@@ -53,16 +53,16 @@ render fs = pictures $ map printTrace pts
 
 -- | Reactive event handler function
 handleEvents :: Event -> FractalState -> FractalState
-handleEvents (EventKey (Char 'n') _ _ _) fs = let pl = pointLoc fs
-                                                  gen = generator fs
-                                                  (pl', (x, y), gen') = chaosStep gen pl
-                                              in fs { pointLoc = pl'
-                                                    , generator = gen'
-                                                    , points = (x, y):points fs
-                                                    }
+handleEvents (EventKey (Char 'n') Down _ _) fs = let pl = pointLoc fs
+                                                     gen = generator fs
+                                                     (pl', (x, y), gen') = chaosStep gen pl
+                                                 in fs { pointLoc = pl'
+                                                       , generator = gen'
+                                                       , points = (x, y):points fs
+                                                       }
 
 
-handleEvents (EventKey (Char 'p') _ _ _) fs = fs { autoPlay = not $ autoPlay fs }
+handleEvents (EventKey (Char 'p') Down _ _) fs = fs { autoPlay = not $ autoPlay fs }
 handleEvents _ fs = fs
 
 -- | IDK
@@ -79,7 +79,7 @@ stepWorld _ fs = if autoPlay fs
 
 
 chaosStep :: StdGen -> Vector R -> (Vector R, (Float, Float), StdGen)
-chaosStep gen pl = let (pl', gen') = iter infTriangles2 gen pl
+chaosStep gen pl = let (pl', gen') = iter squareLeafIFS gen pl
                        (x:y:[]) = toList pl'
                        x' = realToFrac (300 * x)
                        y' = realToFrac (300 * y)
